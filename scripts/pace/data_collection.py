@@ -79,6 +79,7 @@ def main():
         drive_joint_idx = torch.argmax(comparison_matrix.int(), dim=0)
         articulation.actuators[drive_type].update_time_lags(time_lag)
         articulation.actuators[drive_type].update_encoder_bias(bias[:, drive_joint_idx])
+        articulation.actuators[drive_type].reset(torch.arange(env.unwrapped.num_envs))
 
     data_dir = project_root() / "data" / env_cfg.sim2real.robot_name
 
@@ -110,6 +111,8 @@ def main():
         device=env.unwrapped.device
     )
     trajectory[:, joint_ids] = (trajectory[:, joint_ids] + trajectory_bias.unsqueeze(0)) * trajectory_directions.unsqueeze(0) * trajectory_scale.unsqueeze(0)
+    articulation.write_joint_position_to_sim(trajectory[0, :].unsqueeze(0) + bias[0, joint_ids])
+    articulation.write_joint_velocity_to_sim(torch.zeros((1, len(joint_ids)), device=env.unwrapped.device))
 
     counter = 0
     # simulate environment
@@ -151,6 +154,8 @@ def main():
         plt.figure()
         plt.plot(dof_pos_buffer[:, i].cpu().numpy(), label=f"{joint_order[i]} pos")
         plt.plot(dof_target_pos_buffer[:, i].cpu().numpy(), label=f"{joint_order[i]} target", linestyle='dashed')
+        plt.grid()
+        plt.title(f"Joint {joint_order[i]} Trajectory")
         plt.legend()
         plt.show()
 

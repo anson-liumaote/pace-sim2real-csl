@@ -121,6 +121,7 @@ class CMAESOptimizer:
             drive_joint_idx = torch.argmax(comparison_matrix.int(), dim=0)
             articulation.actuators[drive_type].update_encoder_bias(self.sim_params[:, self.bias_idx][:, drive_joint_idx])
             articulation.actuators[drive_type].update_time_lags(self.sim_params[:, self.delay_idx].to(torch.int))
+            articulation.actuators[drive_type].reset(env_ids)
 
     def _print_iteration(self):
         min_score = torch.min(self.scores)
