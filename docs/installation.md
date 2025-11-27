@@ -25,6 +25,29 @@ This section describes how to install and set up the **PACE (Precise Adaptation 
 
 PACE is **developed and tested** with Isaac Sim 5.0, Isaac Lab 0.46.2 and Python 3.11.13. Other versions may work but are not officially supported at the moment.
 
+### Isaac Sim compatibility notes
+
+PACE is designed around the physics capabilities introduced in **Isaac Sim 5.0**, including:
+- Joint viscous friction modeling
+- Improved articulation parameter handling
+- More consistent actuator behavior
+
+When running PACE on Isaac Sim versions **< 5.0**, you may see warnings such as:
+
+```bash
+Setting joint viscous friction coefficients are not supported in Isaac Sim < 5.0
+```
+
+This means the simulator silently ignores these parameters. As a result:
+- The simulation will run, but
+- The actuator dynamics will not match the intended PACE model
+- Sim-to-real performance may degrade
+
+For accurate system identification and controller transfer, we strongly recommend using:
+> Isaac Sim 5.0 + Isaac Lab (current stable)
+
+Future versions of PACE may rely even more heavily on features introduced in Isaac Sim 5.x.
+
 ---
 
 ## 1. Install Isaac Lab

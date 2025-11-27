@@ -48,6 +48,20 @@ Using a Python interpreter that has Isaac Lab installed:
 # if Isaac Lab is not installed in a Python venv or conda environment
 python -m pip install -e source/pace_sim2real
 ```
+### ⚠️ Isaac Sim version compatibility
+
+PACE is developed and tested against **Isaac Sim 5.0 / Isaac Lab (latest)**.
+
+If you run the examples on older versions (e.g. Isaac Sim 4.5), you may encounter warnings such as:
+
+```bash
+Setting joint viscous friction coefficients are not supported in Isaac Sim < 5.0
+```
+
+These warnings are expected and indicate that certain physics properties (e.g. joint viscous friction) are not supported by the older simulator version. While the examples may still run, the physical fidelity and sim-to-real accuracy will be reduced.
+
+✅ Recommended: Isaac Sim 5.0 or newer  
+⚠️ Legacy support: May run with limitations on < 5.0
 
 ---
 
@@ -143,7 +157,7 @@ We also acknowledge Zichong, Stephan, Efe, Yuntao, René, Clemens, Ryo, Alexande
 
 We further thank Oliver Fischer and René Zurbrüegg for their direct contributions to the codebase and their ongoing support as project maintainers.
 
-We also thank the early testers — Clemens and Oliver — who evaluated the framework prior to its public release and provided valuable feedback on usability, stability, and documentation improvements.
+We also thank the early testers — Oliver, Clemens and Yasmine — who evaluated the framework prior to its public release and provided valuable feedback on usability, stability, and documentation improvements.
 
 ---
 
