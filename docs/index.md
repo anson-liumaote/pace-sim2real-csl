@@ -41,7 +41,6 @@ Use this documentation to get started, explore examples, and understand how to a
 -->
 
 Additional sections such as Concepts, API Reference, and Development are planned and will be added as the PACE framework evolves.
-
 ## How to cite
 
 If you use **PACE** in your research, please cite our [paper](https://arxiv.org/pdf/2509.06342):
