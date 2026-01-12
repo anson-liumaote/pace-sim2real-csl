@@ -63,7 +63,20 @@ def main():
     target_dof_pos = data["des_dof_pos"].to(env.unwrapped.device)
     measured_dof_pos = data["dof_pos"].to(env.unwrapped.device)
 
-    initial_dof_pos = measured_dof_pos[0, :].unsqueeze(0).repeat(env.unwrapped.num_envs, 1)
+    # Define default pose (must match go2_pace_env_cfg.py)
+    # Order: FR_hip, FR_thigh, FR_calf, FL_hip, FL_thigh, FL_calf, RR_hip, RR_thigh, RR_calf, RL_hip, RL_thigh, RL_calf
+    # Note: The order here must match joint_order in go2_pace_env_cfg.py
+    default_pose = torch.tensor([
+        -0.1, 0.8, -1.5,  # FR
+         0.1, 0.8, -1.5,  # FL
+        -0.1, 1.0, -1.5,  # RR
+         0.1, 1.0, -1.5   # RL
+    ], device=env.unwrapped.device)
+
+    # Convert target data to be relative to default pose
+    target_dof_pos -= default_pose
+
+    initial_dof_pos = measured_dof_pos[0, :].unsqueeze(0).repeat(env.unwrapped.num_envs, 1).float()
 
     time_steps = time_data.shape[0]
     sim_dt = env.unwrapped.sim.cfg.dt
@@ -91,7 +104,10 @@ def main():
         # run everything in inference mode
         with torch.inference_mode():
             # compute zero actions
-            opt.tell(env.unwrapped.scene.articulations["robot"].data.joint_pos[:, sim_joint_ids], measured_dof_pos[counter, :].unsqueeze(0).repeat(env.unwrapped.num_envs, 1))
+            # Read current joint positions from simulation
+            current_sim_pos = env.unwrapped.scene.articulations["robot"].data.joint_pos[:, sim_joint_ids]
+
+            opt.tell(current_sim_pos, measured_dof_pos[counter, :].unsqueeze(0).repeat(env.unwrapped.num_envs, 1))
             actions = torch.zeros(env.action_space.shape, device=env.unwrapped.device)
             actions[:, sim_joint_ids] = target_dof_pos[counter, :].unsqueeze(0).repeat(env.unwrapped.num_envs, 1)
             # apply actions
