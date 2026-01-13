@@ -66,11 +66,17 @@ def main():
     # Define default pose (must match go2_pace_env_cfg.py)
     # Order: FR_hip, FR_thigh, FR_calf, FL_hip, FL_thigh, FL_calf, RR_hip, RR_thigh, RR_calf, RL_hip, RL_thigh, RL_calf
     # Note: The order here must match joint_order in go2_pace_env_cfg.py
+    # default_pose = torch.tensor([
+    #     -0.1, 0.8, -1.5,  # FR
+    #      0.1, 0.8, -1.5,  # FL
+    #     -0.1, 1.0, -1.5,  # RR
+    #      0.1, 1.0, -1.5   # RL
+    # ], device=env.unwrapped.device)
     default_pose = torch.tensor([
-        -0.1, 0.8, -1.5,  # FR
-         0.1, 0.8, -1.5,  # FL
-        -0.1, 1.0, -1.5,  # RR
-         0.1, 1.0, -1.5   # RL
+        0.1, 0.4, -1.0,  # FL
+        -0.1, 0.4, -1.0,  # FR
+        0.1, -0.4, 1.0,  # RL
+        -0.1, -0.4, 1.0   # RR
     ], device=env.unwrapped.device)
 
     # Convert target data to be relative to default pose

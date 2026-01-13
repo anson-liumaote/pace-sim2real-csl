@@ -21,3 +21,13 @@ gym.register(
         "env_cfg_entry_point": f"{__name__}.pace.go2_pace_env_cfg:Go2PaceEnvCfg"
     },
 )
+
+gym.register(
+    id="Isaac-Pace-Bigreddog-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": f"{__name__}.pace.bigreddog_pace_env_cfg:BigreddogPaceEnvCfg"
+    },
+)
+

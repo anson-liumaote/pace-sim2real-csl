@@ -36,7 +36,7 @@ Clone or copy this project separately from the Isaac Lab installation (i.e. outs
 
 ```bash
 git clone https://github.com/leggedrobotics/pace-sim2real.git
-cd pace-sim2real
+cd pace-sim2real-csl
 ```
 
 ### 3. Install PACE in editable mode
@@ -101,7 +101,7 @@ data/anymal_d_sim/chirp_data.pt
 ### 3. Run PACE parameter fitting
 
 ```bash
-python scripts/pace/fit.py
+python scripts/pace/fit.py --task <task_name> --headless
 ```
 
 This will estimate the actuator and joint parameters using CMA-ES and store results in:
